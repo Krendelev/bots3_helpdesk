@@ -23,8 +23,10 @@ def reply_with_intent(session_id, text, language_code="ru"):
     response = session_client.detect_intent(
         request={"session": session, "query_input": query_input}
     )
-
-    return response.query_result.fulfillment_text
+    return (
+        response.query_result.fulfillment_text,
+        response.query_result.intent.is_fallback,
+    )
 
 
 # modified from https://cloud.google.com/dialogflow/es/docs/how/manage-intents#create-intent-python
