@@ -3,9 +3,7 @@ import os
 
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
-from utils import reply_with_intent, TelegramLogsHandler
-
-logger = logging.getLogger(__file__)
+from utils import get_logger, reply_with_intent
 
 
 def start(update, context):
@@ -21,12 +19,6 @@ def reply(update, context):
 
 
 def main():
-    logger.setLevel(logging.ERROR)
-    handler = TelegramLogsHandler(
-        os.environ["LOGGER_TOKEN"], os.environ["TELEGRAM_CHAT_ID"]
-    )
-    logger.addHandler(handler)
-
     bot = Updater(os.environ["TELEGRAM_TOKEN"])
 
     bot.dispatcher.add_handler(CommandHandler("start", start))
@@ -37,4 +29,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logger = get_logger(__file__)
     main()

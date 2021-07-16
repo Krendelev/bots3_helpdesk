@@ -5,9 +5,7 @@ import os
 import vk_api as vk
 from vk_api.longpoll import VkLongPoll, VkEventType
 
-from utils import reply_with_intent, TelegramLogsHandler
-
-logger = logging.getLogger(__file__)
+from utils import get_logger, reply_with_intent
 
 
 def reply(event, vk_api):
@@ -19,12 +17,6 @@ def reply(event, vk_api):
 
 
 def main():
-    logger.setLevel(logging.ERROR)
-    handler = TelegramLogsHandler(
-        os.environ["LOGGER_TOKEN"], os.environ["TELEGRAM_CHAT_ID"]
-    )
-    logger.addHandler(handler)
-
     vk_session = vk.VkApi(token=os.getenv("VK_ACCESS_TOKEN"))
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
@@ -37,4 +29,5 @@ def main():
 
 
 if __name__ == "__main__":
+    logger = get_logger(__file__)
     main()

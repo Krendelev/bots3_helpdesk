@@ -22,6 +22,18 @@ class TelegramLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
+def get_logger(name):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.ERROR)
+    handler = TelegramLogsHandler(
+        os.environ["LOGGER_TOKEN"], os.environ["TELEGRAM_CHAT_ID"]
+    )
+    formatter = logging.Formatter("%(asctime)s: %(filename)s - %(message)s")
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger
+
+
 def load_json(filepath):
     with open(filepath) as fh:
         return json.load(fh)
