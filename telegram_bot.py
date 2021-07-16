@@ -1,10 +1,9 @@
 import logging
 import os
-from logging.handlers import RotatingFileHandler
 
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
-from utils import reply_with_intent
+from utils import reply_with_intent, TelegramLogsHandler
 
 logger = logging.getLogger(__file__)
 
@@ -14,17 +13,18 @@ def start(update, context):
 
 
 def reply(update, context):
-    message, _ = reply_with_intent(update.effective_chat.id, update.message.text)
-    update.message.reply_text(message)
+    try:
+        message, _ = reply_with_intent(update.effective_chat.id, update.message.text)
+        update.message.reply_text(message)
+    except Exception as err:
+        logger.error(err)
 
 
 def main():
-    logging.basicConfig(
-        filename="tg_bot.log",
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        level=logging.WARNING,
+    logger.setLevel(logging.ERROR)
+    handler = TelegramLogsHandler(
+        os.environ["LOGGER_TOKEN"], os.environ["TELEGRAM_CHAT_ID"]
     )
-    handler = RotatingFileHandler("tg_bot.log", maxBytes=200, backupCount=2)
     logger.addHandler(handler)
 
     bot = Updater(os.environ["TELEGRAM_TOKEN"])

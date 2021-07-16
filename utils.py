@@ -1,10 +1,25 @@
 import json
+import logging
 import os
 
 from dotenv import load_dotenv
 from google.cloud import dialogflow
+from telegram.ext import Updater
+
 
 load_dotenv()
+
+
+class TelegramLogsHandler(logging.Handler):
+    def __init__(self, token, chat_id):
+        super().__init__()
+        self.token = token
+        self.chat_id = chat_id
+        self.tg_bot = Updater(self.token).bot
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def load_json(filepath):
