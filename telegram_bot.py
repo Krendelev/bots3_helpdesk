@@ -1,11 +1,14 @@
+import logging
 import os
 
 from dotenv import load_dotenv
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
-from utils import get_logger, reply_with_intent
+from dialogflow_mod import reply_with_intent
+from loggers import configure_logger
 
-logger = get_logger(__file__)
+
+logger = logging.getLogger(__file__)
 
 
 def start(update, context):
@@ -23,6 +26,9 @@ def reply(update, context):
 
 
 def main():
+    load_dotenv()
+    configure_logger(logger)
+    
     bot = Updater(os.environ["TELEGRAM_TOKEN"])
 
     bot.dispatcher.add_handler(CommandHandler("start", start))
@@ -33,5 +39,4 @@ def main():
 
 
 if __name__ == "__main__":
-    load_dotenv()
     main()
