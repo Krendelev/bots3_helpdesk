@@ -2,20 +2,15 @@ import json
 import logging
 import os
 
-from dotenv import load_dotenv
 from google.cloud import dialogflow
-from telegram.ext import Updater
-
-
-load_dotenv()
-
+from telegram import Bot
 
 class TelegramLogsHandler(logging.Handler):
     def __init__(self, token, chat_id):
         super().__init__()
         self.token = token
         self.chat_id = chat_id
-        self.tg_bot = Updater(self.token).bot
+        self.tg_bot = Bot(self.token)
 
     def emit(self, record):
         log_entry = self.format(record)

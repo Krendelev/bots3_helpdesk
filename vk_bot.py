@@ -1,8 +1,8 @@
-import logging
 import random
 import os
 
 import vk_api as vk
+from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 from utils import get_logger, reply_with_intent
@@ -17,6 +17,7 @@ def reply(event, vk_api):
 
 
 def main():
+    load_dotenv()
     vk_session = vk.VkApi(token=os.getenv("VK_ACCESS_TOKEN"))
     vk_api = vk_session.get_api()
     longpoll = VkLongPoll(vk_session)
