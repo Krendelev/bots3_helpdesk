@@ -17,9 +17,9 @@ $ python3 telegram_bot.py
 или
 $ python3 vk_bot.py
 ```
-Вы можете обучить бота ответам на определенные группы вопросов. Для этого добавьте вопросы и ответ на них в файл `training_phrases.json` и запустите `utils.py`:
+Вы можете обучить бота ответам на определенные группы вопросов. Для этого добавьте вопросы и ответ на них в файл `training_phrases.json` и запустите `dialogflow_mod.py`:
 ```bash
-$ python3 utils.py
+$ python3 dialogflow_mod.py
 ```
 
 ## Настройки и переменные окружения
