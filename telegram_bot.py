@@ -12,7 +12,7 @@ def start(update, context):
 
 def reply(update, context):
     try:
-        message, _ = reply_with_intent(update.effective_chat.id, update.message.text)
+        message, _ = reply_with_intent(f"tg-{update.effective_chat.id}", update.message.text)
         update.message.reply_text(message)
     except Exception as err:
         logger.error(err)

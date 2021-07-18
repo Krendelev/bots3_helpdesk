@@ -9,7 +9,7 @@ from utils import get_logger, reply_with_intent
 
 
 def reply(event, vk_api):
-    message, fallback = reply_with_intent(event.user_id, event.text)
+    message, fallback = reply_with_intent(f"vk-{event.user_id}", event.text)
     if not fallback:
         vk_api.messages.send(
             user_id=event.user_id, message=message, random_id=random.getrandbits(32)
