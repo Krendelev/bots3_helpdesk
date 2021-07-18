@@ -7,6 +7,8 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 
 from utils import get_logger, reply_with_intent
 
+logger = get_logger(__file__)
+
 
 def reply(event, vk_api):
     message, fallback = reply_with_intent(f"vk-{event.user_id}", event.text)
@@ -30,5 +32,4 @@ def main():
 
 
 if __name__ == "__main__":
-    logger = get_logger(__file__)
     main()

@@ -5,6 +5,8 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 from utils import get_logger, reply_with_intent
 
+logger = get_logger(__file__)
+
 
 def start(update, context):
     update.message.reply_text("Здравствуйте! Чем можем помочь?")
@@ -12,7 +14,9 @@ def start(update, context):
 
 def reply(update, context):
     try:
-        message, _ = reply_with_intent(f"tg-{update.effective_chat.id}", update.message.text)
+        message, _ = reply_with_intent(
+            f"tg-{update.effective_chat.id}", update.message.text
+        )
         update.message.reply_text(message)
     except Exception as err:
         logger.error(err)
@@ -30,5 +34,4 @@ def main():
 
 if __name__ == "__main__":
     load_dotenv()
-    logger = get_logger(__file__)
     main()
